@@ -1,0 +1,17 @@
+JsonService.java:
++ if there's more rates in json file
+    if (element.isJsonObject()) {
+              JsonObject jsonObject = element.getAsJsonObject();
+              JsonArray jsonArray = jsonObject.getAsJsonArray(RATES_TABLE_NAME);
+              for (int i = 0; i < jsonArray.size(); i++) {
+                  System.out.println(((JsonObject) jsonArray.get(i)).get(ASK_EXCHANGE_RATE_NAME));
+              }
+          }
+
+ChefApplication.java:
++ run send SMS method with Twilio service
+@Override
+    public void run(String... args) throws Exception {
+        Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
+        Message.creator(new PhoneNumber(to), new PhoneNumber(from), "Hello there!").create();
+    }

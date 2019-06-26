@@ -1,9 +1,11 @@
 package com.banking.chef.controller;
 
 import com.banking.chef.service.JsonService;
+import com.banking.chef.service.SMSSenderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Controller
 public class IndexController {
@@ -15,9 +17,15 @@ public class IndexController {
 
     @GetMapping(value = "/chf")
     public String getCHFexchangeRate(Model model) {
-        String output = JsonService.readValuesFromJson();
-        model.addAttribute("rate", output);
+        double currentCHFrate = JsonService.readValuesFromJson();
+        model.addAttribute("rate", currentCHFrate);
         return "chf";
+    }
+
+    @GetMapping(value = "/sent")
+    public String invokeSendSMSMethod() {
+        SMSSenderService.sendSMS();
+        return "sent";
     }
 
 }

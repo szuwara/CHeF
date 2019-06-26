@@ -14,31 +14,21 @@ import java.util.Scanner;
 public class JsonService {
     private static final String RATES_TABLE_NAME = "rates";
     private static final String ASK_EXCHANGE_RATE_NAME = "ask";
+    private static final String API_NBP_LINK = "http://api.nbp.pl/api/exchangerates/rates/c/chf/?format=json";
 
-    public static String readValuesFromJson() {
-        String link = "http://api.nbp.pl/api/exchangerates/rates/c/chf/?format=json";
-        String jsonContent = jsonGetRequest(link);
-        String output = null;
+    public static double readValuesFromJson() {
+        String jsonContent = jsonGetRequest(API_NBP_LINK);
+        double askExchangeRate = 0.0;
 
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(jsonContent);
 
-       /* if (element.isJsonObject()) {
-            JsonObject jsonObject = element.getAsJsonObject();
-            JsonArray jsonArray = jsonObject.getAsJsonArray(RATES_TABLE_NAME);
-            for (int i = 0; i < jsonArray.size(); i++) { //if there's more rates
-                System.out.println(((JsonObject) jsonArray.get(i)).get(ASK_EXCHANGE_RATE_NAME));
-            }
-        }*/
-
         if (element.isJsonObject()) {
             JsonObject currencyTable = element.getAsJsonObject();
             JsonArray ratesArray = currencyTable.getAsJsonArray(RATES_TABLE_NAME);
-            double askEchangeRate = ((JsonObject) ratesArray.get(0)).get(ASK_EXCHANGE_RATE_NAME).getAsDouble(); //if there's only one rate (which it is)
-            System.out.println("Today's CHF exchange rate = " + askEchangeRate);
-            output = askEchangeRate + " ";
+            askExchangeRate = ((JsonObject) ratesArray.get(0)).get(ASK_EXCHANGE_RATE_NAME).getAsDouble();
         }
-        return output;
+        return askExchangeRate;
     }
 
     private static String jsonGetRequest(String urlQueryString) {
