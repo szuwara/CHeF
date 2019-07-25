@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class SMSSenderService extends TimerTask {
 
@@ -34,14 +35,14 @@ public class SMSSenderService extends TimerTask {
     public void setTimer() {
         Calendar today = Calendar.getInstance();
         today.setTimeZone(MY_TIME_ZONE);
-        today.set(Calendar.HOUR_OF_DAY, 23);
+        today.set(Calendar.HOUR_OF_DAY, 9);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
 
-        //long delay = TimeUnit.MINUTES.toMillis(5);
+        long period = TimeUnit.HOURS.toMillis(24);
 
         Timer timer = new Timer();
-        timer.schedule(new SMSSenderService(), today.getTime());
+        timer.scheduleAtFixedRate(new SMSSenderService(), today.getTime(), period);
     }
 
     @Override
