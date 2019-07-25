@@ -4,6 +4,9 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.util.Timer;
 import java.util.TimerTask;
 
 public class SMSSenderService extends TimerTask {
@@ -12,6 +15,7 @@ public class SMSSenderService extends TimerTask {
     private static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
     private static final String NUMBER_FROM = System.getenv("TWILIO_NUMBER_FROM");
     private static final String NUMBER_TO = System.getenv("TWILIO_NUMBER_TO");
+    private static final TimeZone MY_TIME_ZONE = TimeZone.getTimeZone(System.getenv("TZ"));
     private static double currentCHFRate = JsonService.readValuesFromJson();
     private static String smsBody = "Today's CHF exchange rate: " + currentCHFRate;
 
@@ -25,6 +29,19 @@ public class SMSSenderService extends TimerTask {
                 .create();
 
         System.out.println(message.getSid());
+    }
+
+    public void setTimer() {
+        Calendar today = Calendar.getInstance();
+        today.setTimeZone(MY_TIME_ZONE);
+        today.set(Calendar.HOUR_OF_DAY, 23);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+
+        //long delay = TimeUnit.MINUTES.toMillis(5);
+
+        Timer timer = new Timer();
+        timer.schedule(new SMSSenderService(), today.getTime());
     }
 
     @Override

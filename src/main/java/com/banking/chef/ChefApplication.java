@@ -1,16 +1,15 @@
 package com.banking.chef;
 
-import com.banking.chef.service.SMSSenderScheduler;
+import com.banking.chef.service.SMSSenderService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.text.ParseException;
 
 @SpringBootApplication
 public class ChefApplication {
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         SpringApplication.run(ChefApplication.class, args);
-        SMSSenderScheduler.setTimer();
+        SMSSenderService smsSenderService = new SMSSenderService();
+        smsSenderService.setTimer();
     }
 }
