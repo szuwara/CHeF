@@ -1,7 +1,6 @@
 package com.banking.chef.controller;
 
 import com.banking.chef.service.JsonService;
-import com.banking.chef.service.SMSSenderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +21,10 @@ public class IndexController {
         return "chf";
     }
 
-    @GetMapping(value = "/sent")
+    /*@GetMapping(value = "/sent")
     public String invokeSendSMSMethod() {
         SMSSenderService.sendSMS();
         return "sent";
-    }
+    }*/
 
 }

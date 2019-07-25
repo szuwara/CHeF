@@ -15,15 +15,13 @@ public class SMSSenderService extends TimerTask {
     private static double currentCHFRate = JsonService.readValuesFromJson();
     private static String smsBody = "Today's CHF exchange rate: " + currentCHFRate;
 
-    public static void sendSMS() {
-
+    public void sendSMS() {
 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new PhoneNumber(NUMBER_TO),
                 new PhoneNumber(NUMBER_FROM),
-                smsBody
-        )
+                smsBody)
                 .create();
 
         System.out.println(message.getSid());
