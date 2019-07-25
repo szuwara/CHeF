@@ -2,7 +2,6 @@ package com.banking.chef.service;
 
 import java.util.Calendar;
 import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 
 public class SMSSenderScheduler {
 
@@ -11,8 +10,9 @@ public class SMSSenderScheduler {
         today.set(Calendar.HOUR_OF_DAY, 9);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
+        int period = 86_400_000; //1000*60*60*24 = 1 day
 
         Timer timer = new Timer();
-        timer.schedule(new SMSSenderService(), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+        timer.schedule(new SMSSenderService(), today.getTime(), period);
     }
 }

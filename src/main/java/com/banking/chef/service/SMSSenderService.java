@@ -17,6 +17,7 @@ public class SMSSenderService extends TimerTask {
 
     public static void sendSMS() {
 
+
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new PhoneNumber(NUMBER_TO),
