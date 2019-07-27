@@ -6,11 +6,11 @@ import com.twilio.type.PhoneNumber;
 
 import java.util.Calendar;
 import java.util.TimeZone;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class SMSSenderService extends TimerTask {
+public abstract class SMSSenderService {
 
     private static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
     private static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
@@ -20,33 +20,38 @@ public class SMSSenderService extends TimerTask {
     private static double currentCHFRate = JsonService.readValuesFromJson();
     private static String smsBody = "Today's CHF exchange rate: " + currentCHFRate;
 
-    public void sendSMS() {
 
+    public static void sendSMS() {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new PhoneNumber(NUMBER_TO),
                 new PhoneNumber(NUMBER_FROM),
                 smsBody)
                 .create();
-
         System.out.println(message.getSid());
     }
 
-    public void setTimer() {
-        Calendar today = Calendar.getInstance();
-        today.setTimeZone(MY_TIME_ZONE);
-        today.set(Calendar.HOUR_OF_DAY, 9);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
+    public static void setTimer() {
 
-        long period = TimeUnit.HOURS.toMillis(24);
+        Calendar dayOfExecution = Calendar.getInstance();
+        dayOfExecution.setTimeZone(MY_TIME_ZONE);
+        dayOfExecution.set(Calendar.HOUR_OF_DAY, 21);
+        dayOfExecution.set(Calendar.MINUTE, 5);
+        dayOfExecution.set(Calendar.SECOND, 0);
 
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new SMSSenderService(), today.getTime(), period);
-    }
+        Calendar currentDay = Calendar.getInstance();
+        currentDay.setTimeZone(MY_TIME_ZONE);
 
-    @Override
-    public void run() {
-        sendSMS();
+        long currentTime = currentDay.getTimeInMillis();
+        long startScheduler = dayOfExecution.getTime().getTime() - currentTime;
+        long delayOfNextNotification = TimeUnit.DAYS.toMillis(1);
+
+        if (dayOfExecution.getTime().getTime() < currentTime) {
+            dayOfExecution.add(Calendar.DATE, 1);
+            System.out.println("Notification delayed to next day.");
+        }
+
+        final ScheduledExecutorService executeSendingNotification = Executors.newSingleThreadScheduledExecutor();
+        executeSendingNotification.scheduleAtFixedRate(SMSSenderService::sendSMS, startScheduler, delayOfNextNotification, TimeUnit.MILLISECONDS);
     }
 }
