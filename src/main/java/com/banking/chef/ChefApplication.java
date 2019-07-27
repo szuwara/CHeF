@@ -8,6 +8,5 @@ public class ChefApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ChefApplication.class, args);
-        //SMSSenderService.setTimer();
     }
 }

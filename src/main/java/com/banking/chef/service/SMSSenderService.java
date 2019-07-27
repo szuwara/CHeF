@@ -28,27 +28,32 @@ public abstract class SMSSenderService {
                 new PhoneNumber(NUMBER_FROM),
                 smsBody)
                 .create();
-        System.out.println(message.getSid());
+        System.out.println(message.getSid() + "\nNOTIFICATION SENT!");
     }
 
     public static void setTimer() {
-
         Calendar dayOfExecution = Calendar.getInstance();
         dayOfExecution.setTimeZone(MY_TIME_ZONE);
-        dayOfExecution.set(Calendar.HOUR_OF_DAY, 21);
-        dayOfExecution.set(Calendar.MINUTE, 5);
+        dayOfExecution.set(Calendar.HOUR_OF_DAY, 9);
+        dayOfExecution.set(Calendar.MINUTE, 0);
         dayOfExecution.set(Calendar.SECOND, 0);
 
         Calendar currentDay = Calendar.getInstance();
         currentDay.setTimeZone(MY_TIME_ZONE);
 
         long currentTime = currentDay.getTimeInMillis();
-        long startScheduler = dayOfExecution.getTime().getTime() - currentTime;
-        long delayOfNextNotification = TimeUnit.DAYS.toMillis(1);
-
+        long delayOfNextNotification = TimeUnit.HOURS.toMillis(6); // set interval to 6 hours for tests -> goal is to 24 hours
         if (dayOfExecution.getTime().getTime() < currentTime) {
             dayOfExecution.add(Calendar.DATE, 1);
-            System.out.println("Notification delayed to next day.");
+            System.out.println("Notification delayed to next day \n" +
+                    "Next occurrence of notification is: " + dayOfExecution.getTime());
+        }
+
+        long startScheduler = dayOfExecution.getTime().getTime() - currentTime;
+        {
+            int hours = (int) (startScheduler / 1000 / 60 / 60);
+            int minutes = (int) ((startScheduler / 1000 / 60) % 60);
+            System.out.println(hours + " hours " + minutes + " minutes to pass");
         }
 
         final ScheduledExecutorService executeSendingNotification = Executors.newSingleThreadScheduledExecutor();
