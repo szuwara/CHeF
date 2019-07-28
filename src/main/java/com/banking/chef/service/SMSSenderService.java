@@ -58,12 +58,6 @@ class SMSSenderService {
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
         executor.scheduleAtFixedRate(SMSSenderService::sendSMS, startScheduler, delayOfNextNotification, TimeUnit.MILLISECONDS);
-        executor.scheduleAtFixedRate(SMSSenderService::herokuWakeUp, 25, 25, TimeUnit.MINUTES);
 
-    }
-
-    private static void herokuWakeUp() {
-        System.out.println("Waking up heroku dyno");
-        //this method only exist to hold up Heroku dyno because in 30-minutes inactive time Heroku stops service.
     }
 }
