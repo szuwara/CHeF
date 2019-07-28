@@ -34,7 +34,7 @@ public abstract class SMSSenderService {
     public static void setTimer() {
         Calendar dayOfExecution = Calendar.getInstance();
         dayOfExecution.setTimeZone(MY_TIME_ZONE);
-        dayOfExecution.set(Calendar.HOUR_OF_DAY, 9);
+        dayOfExecution.set(Calendar.HOUR_OF_DAY, 10);
         dayOfExecution.set(Calendar.MINUTE, 0);
         dayOfExecution.set(Calendar.SECOND, 0);
 
