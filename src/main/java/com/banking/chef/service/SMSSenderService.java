@@ -6,11 +6,10 @@ import com.twilio.type.PhoneNumber;
 
 import java.util.Calendar;
 import java.util.TimeZone;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public abstract class SMSSenderService {
+public class SMSSenderService {
 
     private static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
     private static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
@@ -34,7 +33,7 @@ public abstract class SMSSenderService {
     public static void setTimer() {
         Calendar dayOfExecution = Calendar.getInstance();
         dayOfExecution.setTimeZone(MY_TIME_ZONE);
-        dayOfExecution.set(Calendar.HOUR_OF_DAY, 10);
+        dayOfExecution.set(Calendar.HOUR_OF_DAY, 19);
         dayOfExecution.set(Calendar.MINUTE, 0);
         dayOfExecution.set(Calendar.SECOND, 0);
 
@@ -42,7 +41,7 @@ public abstract class SMSSenderService {
         currentDay.setTimeZone(MY_TIME_ZONE);
 
         long currentTime = currentDay.getTimeInMillis();
-        long delayOfNextNotification = TimeUnit.HOURS.toMillis(6); // set interval to 6 hours for tests -> goal is to 24 hours
+        long delayOfNextNotification = TimeUnit.HOURS.toMillis(1); // set interval to 1 hour for tests -> goal is to 24 hours
         if (dayOfExecution.getTime().getTime() < currentTime) {
             dayOfExecution.add(Calendar.DATE, 1);
             System.out.println("Notification delayed to next day \n" +
@@ -56,7 +55,10 @@ public abstract class SMSSenderService {
             System.out.println(hours + " hours " + minutes + " minutes to pass");
         }
 
-        final ScheduledExecutorService executeSendingNotification = Executors.newSingleThreadScheduledExecutor();
-        executeSendingNotification.scheduleAtFixedRate(SMSSenderService::sendSMS, startScheduler, delayOfNextNotification, TimeUnit.MILLISECONDS);
+       /* ScheduledExecutorService executeSendingNotification = Executors.newScheduledThreadPool(1);
+        executeSendingNotification.scheduleAtFixedRate(SMSSenderService::sendSMS, startScheduler, delayOfNextNotification, TimeUnit.MILLISECONDS);*/
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        executor.scheduleAtFixedRate(SMSSenderService::sendSMS, startScheduler, delayOfNextNotification, TimeUnit.MILLISECONDS);
+        executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(true);
     }
 }
