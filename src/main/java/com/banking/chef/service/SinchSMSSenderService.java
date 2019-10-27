@@ -1,17 +1,8 @@
 package com.banking.chef.service;
 
-import org.apache.commons.codec.binary.Base64;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class SinchSMSSenderService {
 
-    static void sendSMS() {
+    /*static void sendSMS() {
         try {
             String phoneNumber = "+48660055247";
             String appKey = "d4f03318a36c4e6aa5911898687d2ebf";
@@ -48,6 +39,6 @@ public class SinchSMSSenderService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }
