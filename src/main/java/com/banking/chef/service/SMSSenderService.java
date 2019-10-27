@@ -15,10 +15,12 @@ class SMSSenderService {
     private static final String NUMBER_FROM = System.getenv("TWILIO_NUMBER_FROM");
     private static final String NUMBER_TO = System.getenv("TWILIO_NUMBER_TO");
     private static final TimeZone MY_TIME_ZONE = TimeZone.getTimeZone(System.getenv("TZ"));
+    private static final String appProdURL = "https://chefrank.herokuapp.com/chf";
+
 
     static void sendSMS() {
         double currentCHFRate = getRate();
-        String smsBody = "Today's CHF exchange rate: " + currentCHFRate;
+        String smsBody = String.format("Today's CHF exchange rate: %s\nClick for more: %s", currentCHFRate, appProdURL);
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new PhoneNumber(NUMBER_TO),
