@@ -1,14 +1,46 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      lang="EN">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="EN">
 <head>
     <meta charset="UTF-8">
     <title>CHF</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
-<h1 th:inline="text">CHF exchange Rate:</h1>
-<h2 th:text="${rate}"></h2>
+<br/>
+<div class="container">
+    <table class="table table-sm table-bordered table-hover table-responsive-sm">
+        <tr class="thead-dark" th:inline="text">
+            <th style="font-size: 32px;">Current CHF exchange rate</th>
+        </tr>
+        <tr style="font-size: 32px; font-weight: bold;">
+            <td th:text="${rate}"></td>
+        </tr>
+    </table>
+</div>
+<div class="container">
+    <table class="table table-sm table-bordered table-hover table-responsive-sm">
+        <thead class="thead-dark">
+        <tr>
+            <th>Date</th>
+            <th>Rate</th>
+        </tr>
+        </thead>
+        <tr th:each="entry : ${table}">
+            <td th:text="${entry.key}">Date</td>
+            <td th:text="${entry.value}">Rate</td>
+        </tr>
+    </table>
+</div>
+<!--<ul>
+    <li th:each="entry: ${table}">
+        <span th:text="${entry.key}"></span> = <span th:text="${entry.value}"></span>
+    </li>
+</ul>-->
+
 <!--<form th:action="@{/sent}">
     <input type="submit" value="Send notification">
 </form>-->

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.text.ParseException;
+import java.util.Map;
+
 
 @Controller
 public class IndexController {
@@ -15,8 +18,10 @@ public class IndexController {
     }
 
     @GetMapping(value = "/chf")
-    public String getCHFexchangeRate(Model model) {
-        double currentCHFrate = JsonService.readValuesFromJson();
+    public String getCHFexchangeRate(Model model) throws ParseException {
+        double currentCHFrate = JsonService.readCurrentExchangeRateFromJson();
+        Map<String, Double> exchangeTable = JsonService.readMonthlyExchangeRateFromJson();
+        model.addAttribute("table", exchangeTable);
         model.addAttribute("rate", currentCHFrate);
         return "chf";
     }

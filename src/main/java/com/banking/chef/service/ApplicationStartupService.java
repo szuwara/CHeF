@@ -20,5 +20,7 @@ public class ApplicationStartupService implements ApplicationListener<Applicatio
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
         executor.scheduleAtFixedRate(SMSSenderService::getRate, startGetRate, delay, TimeUnit.MILLISECONDS);
         executor.scheduleAtFixedRate(SMSSenderService::sendSMS, startSendNotif, delay, TimeUnit.MILLISECONDS);
+
+        //SMSSenderService.sendSMS();
     }
 }
