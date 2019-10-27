@@ -10,17 +10,11 @@ import java.util.concurrent.TimeUnit;
 
 class SMSSenderService {
 
-    //private static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
-    private static final String ACCOUNT_SID = "ACce2a7f71bc3d85b2a17840660c1ec6cb";
-    //private static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
-    private static final String AUTH_TOKEN = "66dce9b7e60ac12ebba793420d12160d";
-    //private static final String NUMBER_FROM = System.getenv("TWILIO_NUMBER_FROM");
-    private static final String NUMBER_FROM = "+15852500732";
+    private static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
+    private static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
+    private static final String NUMBER_FROM = System.getenv("TWILIO_NUMBER_FROM");
     private static final String NUMBER_TO = System.getenv("TWILIO_NUMBER_TO");
     private static final TimeZone MY_TIME_ZONE = TimeZone.getTimeZone(System.getenv("TZ"));
-    //private static double currentCHFRate = 0;
-    //private static String smsBody = "Today's CHF exchange rate: " + currentCHFRate;
-
 
     static void sendSMS() {
         double currentCHFRate = getRate();
