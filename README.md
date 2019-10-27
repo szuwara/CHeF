@@ -4,9 +4,10 @@ Everyday update and notification for NBP CHF exchange rate with Spring Boot
 # Application is online!
 Application is online as web-service settled on Heroku service:
 https://chefrank.herokuapp.com/
+
 credentials:
-username: user
-password: password
+* username: user
+* password: password
 
 ## General Info
 This Spring Boot web application is created for own purposes. It allows me to check
