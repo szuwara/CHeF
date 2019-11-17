@@ -8,28 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.text.ParseException;
 import java.util.Map;
 
-
 @Controller
 public class IndexController {
 
-    @GetMapping(value = "/home")
-    public String hello() {
-        return "home";
-    }
-
-    @GetMapping(value = "/chf")
+    @GetMapping(value = "/")
     public String getCHFexchangeRate(Model model) throws ParseException {
-        double currentCHFrate = JsonService.readCurrentExchangeRateFromJson();
         Map<String, Double> exchangeTable = JsonService.readMonthlyExchangeRateFromJson();
+        double currentCHFrate = JsonService.readCurrentExchangeRateFromJson();
         model.addAttribute("table", exchangeTable);
         model.addAttribute("rate", currentCHFrate);
         return "chf";
     }
-
-    /*@GetMapping(value = "/sent")
-    public String invokeSendSMSMethod() {
-        SMSSenderService.sendSMS();
-        return "sent";
-    }*/
-
 }

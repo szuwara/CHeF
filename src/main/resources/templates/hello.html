@@ -5,13 +5,9 @@
     <title>Hello World!</title>
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
-</form>
-<form th:action="@{/chf}">
-    <input type="submit" value="CHF">
 </form>
 </body>
 </html>

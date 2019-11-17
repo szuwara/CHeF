@@ -1,15 +1,21 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="EN">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="EN">
 <head>
     <meta charset="UTF-8">
-    <title>CHF</title>
+    <title>CHeF : Table</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="scripts/script.js"></script>
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
+<form th:action="@{/logout}" method="post">
+    <button type="submit" class="btn btn-primary mb-2">LOG OUT</button>
+</form>
 <br/>
 <div class="container">
     <table class="table table-sm table-bordered table-hover table-responsive-sm">
@@ -27,23 +33,28 @@
         <tr>
             <th>Date</th>
             <th>Rate</th>
+            <th sec:authorize="hasRole('ADMIN')">Amount</th>
         </tr>
         </thead>
         <tr th:each="entry : ${table}">
             <td th:text="${entry.key}">Date</td>
             <td th:text="${entry.value}">Rate</td>
+            <td sec:authorize="hasRole('ADMIN')" th:text="${@thymeMath.calculateAmountAndRound(entry.value)}">Amount
+            </td>
+            <!--different way to make calculations in thymeleaf:
+            th:with="result=${entry.value * 500} th:text="${result}"
+            -->
         </tr>
     </table>
 </div>
-<!--<ul>
-    <li th:each="entry: ${table}">
-        <span th:text="${entry.key}"></span> = <span th:text="${entry.value}"></span>
-    </li>
-</ul>-->
-
-<!--<form th:action="@{/sent}">
-    <input type="submit" value="Send notification">
-</form>-->
-
 </body>
 </html>
+<!--different way to limit potential data displayed for specific user role:
+<div sec:authorize="hasRole('ADMIN')">
+    <div th:replace="fragments/navbarAdmin :: navbar"></div>
+</div>
+<div sec:authorize="hasRole('USER')">
+    <div th:replace="fragments/navbar :: navbar"></div>
+</div>
+
+-->
