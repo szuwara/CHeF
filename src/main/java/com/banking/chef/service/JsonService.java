@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.*;
 
 public class JsonService {
@@ -42,7 +43,7 @@ public class JsonService {
 
     private static String createApiNbpMonthlyLink() {
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
-        Date startDate = new GregorianCalendar(2019, currentMonth, 1).getTime();
+        Date startDate = new GregorianCalendar(Year.now().getValue(), currentMonth, 1).getTime();
         Date endDate = Calendar.getInstance().getTime();
 
         DateFormat df = new SimpleDateFormat("YYYY-MM-dd");

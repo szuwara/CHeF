@@ -16,11 +16,12 @@ class SMSSenderService {
     private static final String NUMBER_TO = System.getenv("TWILIO_NUMBER_TO");
     private static final TimeZone MY_TIME_ZONE = TimeZone.getTimeZone(System.getenv("TZ"));
     private static final String appProdURL = "https://chefrank.herokuapp.com/chf";
+    private static final String monthlyAmountCHF = System.getenv("amountInCHF");
 
 
     static void sendSMS() {
         double currentCHFRate = getRate();
-        String smsBody = String.format("Today's CHF exchange rate: %s\nClick for more: %s", currentCHFRate, appProdURL);
+        String smsBody = String.format("CHF exchange rate: %s (PLN: %s, CHF: %s)\nClick for more: %s", currentCHFRate, getMonthlyAmountPLN(), monthlyAmountCHF, appProdURL);
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new PhoneNumber(NUMBER_TO),
@@ -112,5 +113,9 @@ class SMSSenderService {
         double rate = JsonService.readCurrentExchangeRateFromJson();
         System.out.println("Rate downloaded [" + rate + "]");
         return rate;
+    }
+
+    private static double getMonthlyAmountPLN() {
+        return ThymeMath.calculateAmountAndRound(getRate());
     }
 }
