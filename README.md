@@ -5,9 +5,11 @@ Everyday update and notification for NBP CHF exchange rate with Spring Boot
 Application is online as web-service settled on Heroku service:
 https://chefrank.herokuapp.com/
 
-credentials:
+credentials for 'user' role:
 * username: user
 * password: password
+
+credentials for 'admin' role not provided
 
 ## General Info
 This Spring Boot web application is created for own purposes. It allows me to check
@@ -23,6 +25,7 @@ Project created with:
 * Twilio API
 * Thymeleaf template engine
 * Bootstrap 4 CSS styles
+* Thymeleaf Extras Springsecurity5
 
 ### NBP API which I use
 http://api.nbp.pl/api/exchangerates/rates/c/chf/?format=json
