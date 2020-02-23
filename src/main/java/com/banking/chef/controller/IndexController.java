@@ -17,6 +17,7 @@ public class IndexController {
         double currentCHFrate = JsonService.readCurrentExchangeRateFromJson();
         model.addAttribute("table", exchangeTable);
         model.addAttribute("rate", currentCHFrate);
+        model.addAttribute("chfamount", System.getenv("amountInCHF"));
         return "chf";
     }
 }

@@ -19,11 +19,16 @@
 <br/>
 <div class="container">
     <table class="table table-sm table-bordered table-hover table-responsive-sm">
-        <tr class="thead-dark" th:inline="text">
-            <th style="font-size: 32px;">Current CHF exchange rate</th>
+        <tr class="thead-dark" th:inline="text" style="font-size: 32px;">
+            <th>Current CHF exchange rate</th>
+            <th sec:authorize="hasRole('ADMIN')">Amount in CHF</th>
+            <th sec:authorize="hasRole('ADMIN')">Amount in PLN</th>
         </tr>
         <tr style="font-size: 32px; font-weight: bold;">
             <td th:text="${rate}"></td>
+            <td sec:authorize="hasRole('ADMIN')" th:text="${chfamount}"></td>
+            <td sec:authorize="hasRole('ADMIN')" th:text="${@thymeMath.calculateAmountAndRound(rate)}"
+                style="color: red;"></td>
         </tr>
     </table>
 </div>
