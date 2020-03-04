@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ThymeMath {
     public static double calculateAmountAndRound(double rate) {
-        double amount = Double.parseDouble(System.getenv("amountInCHF")) * rate;
+        double amount = Double.parseDouble(System.getenv("amountInCHFnew")) * rate;
         return Math.round(amount * 100.0) / 100.0;
     }
 }
