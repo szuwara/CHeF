@@ -16,7 +16,7 @@ class SMSSenderService {
     private static final String NUMBER_TO = System.getenv("TWILIO_NUMBER_TO");
     private static final TimeZone MY_TIME_ZONE = TimeZone.getTimeZone(System.getenv("TZ"));
     private static final String appProdURL = "https://chefrank.herokuapp.com/chf";
-    private static final String monthlyAmountCHF = System.getenv("amountInCHF");
+    private static final String monthlyAmountCHF = System.getenv("amountInCHFnew");
 
 
     static void sendSMS() {
