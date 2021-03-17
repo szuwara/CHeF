@@ -12,6 +12,9 @@ import java.util.Map;
 @Controller
 public class IndexController {
 
+    final boolean SWITCHON = false;
+    String buttonMessage;
+
     @GetMapping(value = "/")
     public String getCHFexchangeRate(Model model) throws ParseException {
         Map<String, Double> exchangeTable = JsonService.readMonthlyExchangeRateFromJson();
@@ -23,7 +26,23 @@ public class IndexController {
     }
 
     @GetMapping(value = "/sent")
-    public void sendSMS() {
-        SMSSenderService.sendSMS();
+    public String getSentMessage(Model model) throws ParseException {
+        getOrSetButtonMessage();
+        model.addAttribute("message", buttonMessage);
+        if (SWITCHON) {
+            SMSSenderService.sendSMS();
+            getOrSetButtonMessage();
+        } else {
+            getOrSetButtonMessage();
+        }
+        return "sent";
+    }
+
+    String getOrSetButtonMessage() {
+        if (SWITCHON) {
+            return buttonMessage = "SMS notification sent!";
+        } else {
+            return buttonMessage = "Sorry, button function disabled for maintenance";
+        }
     }
 }

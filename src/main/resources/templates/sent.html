@@ -14,7 +14,7 @@
     <script src="resources/js/main.js"></script>
 </head>
 <body>
-<h2>SMS notification sent!</h2>
+<h2 th:text="${message}"></h2>
 <form th:action="@{/}" method="GET">
     <button type="submit" class="btn btn-primary mb-2">Back</button>
 </form>
