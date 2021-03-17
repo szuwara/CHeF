@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-class SMSSenderService {
+public class SMSSenderService {
 
     private static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
     private static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
@@ -19,7 +19,7 @@ class SMSSenderService {
     private static final String monthlyAmountCHF = System.getenv("amountInCHFnew");
 
 
-    static void sendSMS() {
+    public static void sendSMS() {
         double currentCHFRate = getRate();
         String smsBody = String.format("CHF exchange rate: %s (PLN: %s, CHF: %s)\nClick for more: %s", currentCHFRate, getMonthlyAmountPLN(), monthlyAmountCHF, appProdURL);
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
