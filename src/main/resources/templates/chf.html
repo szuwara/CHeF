@@ -11,6 +11,48 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="scripts/script.js"></script>
+    <script src="resources/js/chartjs/Chart.js"></script>
+    <script src="resources/js/main.js"></script>
+    <script>
+var ctx = document.getElementById('chfchart');
+var chfchart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+    </script>
 </head>
 <body>
 <form th:action="@{/logout}" method="post">
@@ -38,19 +80,24 @@
         <tr>
             <th>Date</th>
             <th>Rate</th>
-            <th sec:authorize="hasRole('ADMIN')">Amount</th>
+            <!--sec:authorize="hasRole('ADMIN')"-->
+            <th>Amount</th>
         </tr>
         </thead>
         <tr th:each="entry : ${table}">
             <td th:text="${entry.key}">Date</td>
             <td th:text="${entry.value}">Rate</td>
-            <td sec:authorize="hasRole('ADMIN')" th:text="${@thymeMath.calculateAmountAndRound(entry.value)}">Amount
+            <!--sec:authorize="hasRole('ADMIN')" -->
+            <td th:text="${@thymeMath.calculateAmountAndRound(entry.value)}">Amount
             </td>
             <!--different way to make calculations in thymeleaf:
             th:with="result=${entry.value * 500} th:text="${result}"
             -->
         </tr>
     </table>
+</div>
+<div class="container">
+    <canvas id="chfchart" width="400" height="400"></canvas>
 </div>
 </body>
 </html>
